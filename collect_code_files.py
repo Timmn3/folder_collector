@@ -2,7 +2,8 @@ import os
 import base64
 
 # Глобальные константы для исключений
-EXCLUDED_FOLDERS = {'.git', '.idea', '.venv', 'logs', '__pycache__'}
+EXCLUDED_FOLDERS = {'.git', '.idea', '.venv', 'logs', '__pycache__', 'celery_worker', 'migrations', 'server_data',
+                    'test'}
 EXCLUDED_FILES = {'.gitignore'}
 TEXT_EXTENSIONS = [
     '.py', '.txt', '.html', '.css', '.js', '.json',
@@ -11,26 +12,32 @@ TEXT_EXTENSIONS = [
 
 
 def collect_content(directory):
-    """Собирает имена папок первого уровня и .py файлы из указанной директории, исключая системные."""
-    folders = []
-    python_files = []
+    """Собирает информацию о папках и файлах с указанием статуса исключения."""
+    included_folders = []  # Включенные папки
+    excluded_folders = []  # Исключенные папки
+    included_py_files = []  # Включенные .py файлы
+    excluded_py_files = []  # Исключенные .py файлы
 
     try:
         for item in os.listdir(directory):
             full_path = os.path.join(directory, item)
 
             if os.path.isdir(full_path):
-                if item not in EXCLUDED_FOLDERS:
-                    folders.append(item)
+                if item in EXCLUDED_FOLDERS:
+                    excluded_folders.append(item)
+                else:
+                    included_folders.append(item)
 
-            elif os.path.isfile(full_path):
-                if item.endswith('.py') and item not in EXCLUDED_FILES:
-                    python_files.append(item)
+            elif os.path.isfile(full_path) and item.endswith('.py'):
+                if item in EXCLUDED_FILES:
+                    excluded_py_files.append(item)
+                else:
+                    included_py_files.append(item)
 
     except Exception as e:
         print(f"Ошибка при обработке директории: {e}")
 
-    return folders, python_files
+    return included_folders, included_py_files, excluded_folders, excluded_py_files
 
 
 def collect_files(project_path, folders_to_include, files_in_root, output_file):
@@ -102,8 +109,8 @@ def main():
     # Укажите путь к вашему проекту
     target_dir = "C:/PycharmProjects/ON_server/ai_bot_2"
     target_dir = "C:\PycharmProjects\ON_server\EmailFast"
-    target_dir = r"C:\PycharmProjects\My\tochka"
-    target_dir = r"C:\PycharmProjects\My\minimal_avito_parser"
+    # target_dir = r"C:\PycharmProjects\My\tochka"
+    # target_dir = r"C:\PycharmProjects\My\minimal_avito_parser"
     # target_dir = r"C:\PycharmProjects\My\view_logs"
 
     if not os.path.isdir(target_dir):
@@ -115,16 +122,23 @@ def main():
     output_file = f"OUT/{project_name}.txt"
 
     # Собираем структуру проекта
-    folders, py_files = collect_content(target_dir)
+    included_folders, included_py_files, excluded_folders, excluded_py_files = collect_content(target_dir)
 
     # Выводим информацию о структуре
     print("\nПапки первого уровня:")
-    print(folders)
+    print(included_folders)
+
+    print("\nИсключенные папки первого уровня:")
+    print(excluded_folders)
+
     print("\nФайлы .py в корневой папке:")
-    print(py_files)
+    print(included_py_files)
+
+    print("\nИсключенные файлы .py в корневой папке:")
+    print(excluded_py_files)
 
     # Собираем содержимое файлов
-    collect_files(target_dir, folders, py_files, output_file)
+    collect_files(target_dir, included_folders, included_py_files, output_file)
 
 
 if __name__ == "__main__":
