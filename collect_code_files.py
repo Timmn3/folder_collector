@@ -5,7 +5,7 @@ import base64
 EXCLUDED_FOLDERS = {
     '.git', '.idea', '.venv', 'logs', '__pycache__', 'alembic',
     'celery_worker', 'migrations', 'server_data', 'node_modules',
-    'dist', 'test', 'photo_test','voices_en', 'voices_ru', 'photo'
+    'dist', 'test', 'photo_test','voices_en', 'voices_ru', 'photo', 'arkose_snaps'
 }
 EXCLUDED_FILES = {'.gitignore'}
 EXCLUDED_PATHS = {
@@ -13,11 +13,11 @@ EXCLUDED_PATHS = {
 }
 
 # Расширения, которые мы НЕ берём в обработку
-EXCLUDED_EXTENSIONS = {'.tsx', '.svg', '.ts'}
+EXCLUDED_EXTENSIONS = {'.txt', '.tsx', '.svg', '.ts'}
 
 # Разрешённые текстовые расширения
 TEXT_EXTENSIONS = [
-    '.py', '.txt', '.html', '.css', '.js', '.json',
+    '.py',  '.html', '.css', '.js', '.json',
     '.md', '.ini', '.conf', '.sh', '.bat', '.xml', '.csv',
     '.gitignore', '.yml', '.yaml', '.env'
 ]
@@ -147,22 +147,13 @@ def process_file(file_path, base_path, outfile):
 
 
 def main():
-    # target_dir = r"C:\PycharmProjects\My\tochka"
-    # target_dir = r"C:\PycharmProjects\My\tochka\handlers\users"
-    # target_dir = r"C:\PycharmProjects\My\parser_agent"
-    # target_dir = r"c:\PycharmProjects\My\avito_parse
-    #     # target_dir = r"c:\PycharmProjects\ON_server\Avito\suppor"rt_bot"
-    # target_dir = r"C:\PycharmProjects\ON_server\EmailFast"
-    # target_dir = r"C:\PycharmProjects\FastAPI\CityCatalog"
-    # target_dir = r"C:\PycharmProjects\My\pars_flashscorekz"
-    # target_dir = r"C:\PycharmProjects\My\parsing_flashscorekz"
     # target_dir = r"c:\PycharmProjects\ON_server\ai_bot_2"
-    # target_dir = r"C:\PycharmProjects\test_task\telegram_shop_bot"
-    # target_dir = r"C:\PycharmProjects\test_task\weather_bot"
     # target_dir = r"C:\PycharmProjects\ON_server\vpn"
-    # target_dir = r"c:\PycharmProjects\ON_server\vpn_1"
-    # target_dir = r"C:\PycharmProjects\My\email_bot"
-    target_dir = r"C:\PycharmProjects\test_task\numlex"
+    target_dir = r"C:\PycharmProjects\ON_server\EmailFast"
+    # target_dir = r"C:\PycharmProjects\test_task\parser_coinbase"
+    # target_dir = r"C:\PycharmProjects\ON_server\Vibe_VPN"
+    # target_dir = r"C:\PycharmProjects\Work\coinbase"
+
     if not os.path.isdir(target_dir):
         print("Указанный путь не является существующей папкой.")
         return
