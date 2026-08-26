@@ -1,0 +1,13 @@
+/venv
+config.copy.py
+*/__pycache__
+__pycache__
+config.py
+/OUT
+/log
+.env
+settings.ini
+cookies*
+*.session
+*.pem
+state/
